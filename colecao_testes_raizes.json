@@ -1,0 +1,155 @@
+{
+  "info": {
+    "name": "Raizes API - Testes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "T01 - Login Válido",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": "http://localhost:3000/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"cliente@exemplo.com\",\n  \"senha\": \"Senha@123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "T10 - Login Inválido",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": "http://localhost:3000/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"cliente@exemplo.com\",\n  \"senha\": \"senha_errada\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pedidos",
+      "item": [
+        {
+          "name": "T02 - Criar Pedido Sucesso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pedidos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": 1,\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"itens\": [{\"produtoId\": 10, \"quantidade\": 1}]\n}"
+            }
+          }
+        },
+        {
+          "name": "T07 - Erro canalPedido faltando",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pedidos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": 1,\n  \"unidadeId\": 1,\n  \"itens\": [{\"produtoId\": 10, \"quantidade\": 1}]\n}"
+            }
+          }
+        },
+        {
+          "name": "T08 - Erro Estoque Insuficiente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pedidos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": 1,\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"itens\": [{\"produtoId\": 10, \"quantidade\": 999}]\n}"
+            }
+          }
+        },
+        {
+          "name": "T09 - Erro Produto Não Encontrado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pedidos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": 1,\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"itens\": [{\"produtoId\": 999, \"quantidade\": 1}]\n}"
+            }
+          }
+        },
+        {
+          "name": "T03 - Listar Pedidos por Canal",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pedidos?canalPedido=APP&page=1&limit=10"
+          }
+        },
+        {
+          "name": "T06 - Erro Sem Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3000/api/pedidos"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pagamentos",
+      "item": [
+        {
+          "name": "T04 - Mock Aprovado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pagamentos/mock",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": 1,\n  \"statusSimulado\": \"APROVADO\"\n}"
+            }
+          }
+        },
+        {
+          "name": "T05 - Mock Recusado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{TOKEN}}"}
+            ],
+            "url": "http://localhost:3000/api/pagamentos/mock",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": 1,\n  \"statusSimulado\": \"RECUSADO\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

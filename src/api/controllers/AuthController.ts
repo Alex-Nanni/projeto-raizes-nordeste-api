@@ -32,11 +32,14 @@ export class AuthController {
       });
     }
 
-    // 3. Gerar token JWT
+// 3. Gerar token JWT
+    const secret: string = process.env.JWT_SECRET || 'fallback_secret_para_dev';
+    const expiresIn: string | number = process.env.JWT_EXPIRES_IN || '1d';
+
     const token = jwt.sign(
-      { id: usuario.id, perfil: usuario.perfil },
-      process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
+    { id: usuario.id, perfil: usuario.perfil } as object,
+    secret,
+    { expiresIn: expiresIn } as jwt.SignOptions
     );
 
     return res.status(200).json({
