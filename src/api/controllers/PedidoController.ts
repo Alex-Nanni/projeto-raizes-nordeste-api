@@ -48,11 +48,14 @@ export class PedidoController {
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Pedido'
-     *       400:
      *       401:
+     *         description: Não autenticado
      *       404:
+     *         description: Produto não encontrado
      *       409:
+     *         description: Estoque insuficiente
      *       422:
+     *         description: canalPedido ausente ou inválido
      */
 async criarPedido(req: Request, res: Response, next: NextFunction) {
     try {

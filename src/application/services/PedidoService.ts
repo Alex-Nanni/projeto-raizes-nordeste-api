@@ -54,7 +54,7 @@ export class PedidoService {
           create: itens.map((i) => ({
             produtoId: i.produtoId,
             quantidade: i.quantidade,
-            precoUnitario: 0, // Poderia buscar preço na hora, mas simplificamos
+            precoUnitario: 0,
           })),
         },
       },

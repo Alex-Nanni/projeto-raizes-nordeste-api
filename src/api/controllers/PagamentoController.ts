@@ -32,9 +32,13 @@ export class PagamentoController {
      *       200:
      *         description: Pagamento processado
      *       401:
+     *         description: Não autenticado
      *       404:
+     *         description: Produto não encontrado
      *       409:
+     *         description: Estoque insuficiente
      *       422:
+     *         description: canalPedido ausente ou inválido
      */
   async processarMock(req: Request, res: Response, next: NextFunction) {
     try {

@@ -47,6 +47,19 @@ const options = {
             criadoEm: { type: 'string', format: 'date-time' },
           },
         },
+        ListaPedidosResponse: {
+            type: 'object',
+            properties: {
+                data: { type: 'array', items: { $ref: '#/components/schemas/Pedido' } },
+                pagination: {
+                type: 'object',
+                properties: {
+                    page: { type: 'integer' }, limit: { type: 'integer' },
+                    total: { type: 'integer' }, totalPages: { type: 'integer' },
+                },
+                },
+            },
+            },
       },
     },
     security: [{ bearerAuth: [] }],
