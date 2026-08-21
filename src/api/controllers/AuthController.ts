@@ -2,8 +2,59 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { prisma } from '../../infrastructure/database/prismaClient';
+import { logAudit } from '../../infrastructure/logger/auditLogger';
 
 export class AuthController {
+    /**
+     * @swagger
+     * /auth/login:
+     *   post:
+     *     summary: Autentica um usuário e retorna um token JWT
+     *     tags: [Auth]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - email
+     *               - senha
+     *             properties:
+     *               email:
+     *                 type: string
+     *               senha:
+     *                 type: string
+     *     responses:
+     *       200:
+     *         description: Login realizado com sucesso
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 accessToken:
+     *                   type: string
+     *                 tokenType:
+     *                   type: string
+     *                 expiresIn:
+     *                   type: integer
+     *                 user:
+     *                   type: object
+     *                   properties:
+     *                     id:
+     *                       type: integer
+     *                     nome:
+     *                       type: string
+     *                     perfil:
+     *                       type: string
+     *       401:
+     *         description: Credenciais inválidas
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/ErroPadrao'
+     */
   async login(req: Request, res: Response) {
     const { email, senha } = req.body;
 
@@ -31,6 +82,8 @@ export class AuthController {
         path: req.originalUrl,
       });
     }
+
+    logAudit('LOGIN_SUCESSO', usuario.id, { email: usuario.email });
 
 // 3. Gerar token JWT
     const secret: string = process.env.JWT_SECRET || 'fallback_secret_para_dev';

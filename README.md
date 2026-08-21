@@ -59,3 +59,7 @@ Importe a coleção `colecao_testes_raizes.json` no Postman ou Insomnia.
 
 ## Link do Repositório
 https://github.com/Alex-Nanni/projeto-raizes-nordeste-api
+
+## Documentação da API
+A documentação interativa (Swagger) estará disponível em:
+`http://localhost:3000/api-docs` após iniciar o servidor.
